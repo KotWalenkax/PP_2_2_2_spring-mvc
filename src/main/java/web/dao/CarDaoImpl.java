@@ -5,6 +5,8 @@ import web.model.Car;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Repository
 public class CarDaoImpl implements CarDao {
@@ -23,6 +25,8 @@ public class CarDaoImpl implements CarDao {
 
     @Override
     public List<Car> getCarsByCount(int amount) {
-        return cars.subList(0, amount);
+        return cars.stream()
+                .limit(amount <= 0 ? 0 : Math.min(amount, 5))
+                .collect(Collectors.toList());
     }
 }
